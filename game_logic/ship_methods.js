@@ -12,6 +12,13 @@ for (var i = 0; i < player.ships.length; i++) {
 		if (!shipPresent) {
 			return false;
 		}
+
+    if (shipPresent){
+      return true;
+    }
+
+
 	}
+
 }
 module.exports.checkForShip = checkForShip;
