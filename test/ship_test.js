@@ -10,7 +10,7 @@ describe('checkForShip', function() {
 
   it('should correctly report a ship at a given players coordinate', function (){
     player = {ships:[{locations: [[5,0]]}]};
-    expect(checkForShip(player, [5,0])).to.be.true;
+    expect(checkForShip(player, [5,0])).to.be.deep.equal(player.ships[0]);
   });
 
   it('should correctly report a ships for a given player with multiple coordinates', function (){
@@ -20,8 +20,8 @@ describe('checkForShip', function() {
       }
     ]};
 
-    expect(checkForShip(player, [5,0])).to.be.true;
-    expect(checkForShip(player, [5,1])).to.be.true;
+    expect(checkForShip(player, [5,0])).to.deep.equal(player.ships[0]);
+    expect(checkForShip(player, [5,1])).to.deep.equal(player.ships[0]);
     expect(checkForShip(player, [9,9])).to.be.false;
   });
 
@@ -36,14 +36,14 @@ describe('checkForShip', function() {
         locations: [[6,6],[6,7],[6,5],[6,8]]
       }
     ]};
-    expect(checkForShip(player, [6,6])).to.be.true;
-    expect(checkForShip(player, [6,5])).to.be.true;
-    expect(checkForShip(player, [6,7])).to.be.true;
-    expect(checkForShip(player, [6,8])).to.be.true;
-    expect(checkForShip(player, [3,5])).to.be.true;
-    expect(checkForShip(player, [2,5])).to.be.true;
-    expect(checkForShip(player, [5,0])).to.be.true;
-    expect(checkForShip(player, [5,1])).to.be.true;
+    expect(checkForShip(player, [6,6])).to.be.deep.equal(player.ships[2]);
+    expect(checkForShip(player, [6,5])).to.be.deep.equal(player.ships[2]);
+    expect(checkForShip(player, [6,7])).to.be.deep.equal(player.ships[2]);
+    expect(checkForShip(player, [6,8])).to.be.deep.equal(player.ships[2]);
+    expect(checkForShip(player, [3,5])).to.be.deep.equal(player.ships[1]);
+    expect(checkForShip(player, [2,5])).to.be.deep.equal(player.ships[1]);
+    expect(checkForShip(player, [5,0])).to.be.deep.equal(player.ships[0]);
+    expect(checkForShip(player, [5,1])).to.be.deep.equal(player.ships[0]);
     expect(checkForShip(player, [9,9])).to.be.false;
   });
 });
@@ -62,4 +62,39 @@ describe('damageShip', function () {
     expect(ship.damage[0]).to.deep.equal([0,0]);
   });
 
+});
+
+
+describe('fire', function () {
+	var fire = require('../game_logic/ship_methods').fire;
+
+	it('should record damage on the given players ship at a given coordinate', function () {
+		var player = {
+			ships: [
+				{
+					locations: [[0, 0]],
+					damage: []
+				}
+			]
+		};
+
+		fire(player, [0, 0]);
+
+		expect(player.ships[0].damage[0]).to.deep.equal([0, 0]);
+	});
+
+	it('should NOT record damage if there is no ship at my coordinates', function () {
+		var player = {
+			ships: [
+				{
+					locations: [[0, 0]],
+					damage: []
+				}
+			]
+		};
+
+		fire(player, [9, 9]);
+
+		expect(player.ships[0].damage).to.be.empty;
+	});
 });
