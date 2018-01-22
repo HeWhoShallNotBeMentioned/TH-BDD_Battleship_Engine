@@ -32,8 +32,14 @@ describe('checkForShip', function() {
       },
       {
         locations: [[3,5],[2,5]]
+      },{
+        locations: [[6,6],[6,7],[6,5],[6,8]]
       }
     ]};
+    expect(checkForShip(player, [6,6])).to.be.true;
+    expect(checkForShip(player, [6,5])).to.be.true;
+    expect(checkForShip(player, [6,7])).to.be.true;
+    expect(checkForShip(player, [6,8])).to.be.true;
     expect(checkForShip(player, [3,5])).to.be.true;
     expect(checkForShip(player, [2,5])).to.be.true;
     expect(checkForShip(player, [5,0])).to.be.true;
